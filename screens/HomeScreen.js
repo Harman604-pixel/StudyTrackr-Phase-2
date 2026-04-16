@@ -1,10 +1,13 @@
 ﻿import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import CustomButton from '../components/CustomButton';
 import ProgressBar from '../components/ProgressBar';
 import TaskCard from '../components/TaskCard';
 
-export default function HomeScreen({ navigation, tasks, quote, progressValue }) {
+export default function HomeScreen({ navigation, quote }) {
+  const tasks = useSelector(state => state.tasks.tasks);
   const completedTasks = tasks.filter(task => task.completed).length;
+  const progressValue = tasks.length ? completedTasks / tasks.length : 0;
 
   return (
     <ScrollView style={styles.page} contentContainerStyle={styles.container}>
@@ -25,7 +28,7 @@ export default function HomeScreen({ navigation, tasks, quote, progressValue }) 
 
       <View style={styles.quoteCard}>
         <Text style={styles.quoteText}>&ldquo;{quote.text}&rdquo;</Text>
-        <Text style={styles.quoteAuthor}>— {quote.author}</Text>
+        <Text style={styles.quoteAuthor}>- {quote.author}</Text>
       </View>
 
       <View style={styles.taskHeaderRow}>

@@ -1,7 +1,10 @@
 ﻿import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import ProgressBar from '../components/ProgressBar';
 
-export default function ProgressScreen({ progressValue, tasks }) {
+export default function ProgressScreen() {
+  const tasks = useSelector(state => state.tasks.tasks);
+  const progressValue = tasks.length ? tasks.filter(task => task.completed).length / tasks.length : 0;
   const sortedTasks = [...tasks].sort((a, b) => b.progress - a.progress);
 
   return (

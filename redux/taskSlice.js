@@ -1,7 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+﻿import { createSlice } from '@reduxjs/toolkit';
+import { initialTasks } from '../data/mockTasks';
 
 const initialState = {
-  tasks: []
+  tasks: initialTasks
 };
 
 const taskSlice = createSlice({
@@ -9,11 +10,7 @@ const taskSlice = createSlice({
   initialState,
   reducers: {
     addTask: (state, action) => {
-      state.tasks.push({
-        id: Date.now().toString(),
-        title: action.payload,
-        completed: false
-      });
+      state.tasks.push(action.payload);
     },
     deleteTask: (state, action) => {
       state.tasks = state.tasks.filter(task => task.id !== action.payload);

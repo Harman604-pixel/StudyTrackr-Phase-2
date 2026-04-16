@@ -1,9 +1,14 @@
 ﻿import { Alert, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import CustomButton from '../components/CustomButton';
 import ProgressBar from '../components/ProgressBar';
+import { deleteTask, toggleTask } from '../redux/taskSlice';
 
-export default function TaskDetailsScreen({ route, navigation, tasks, setTasks }) {
-  const task = tasks.find(item => item.id === route.params?.taskId);
+export default function TaskDetailsScreen({ route, navigation }) {
+  const dispatch = useDispatch();
+  const task = useSelector(state =>
+    state.tasks.tasks.find(item => item.id === route.params?.taskId)
+  );
 
   if (!task) {
     return (
@@ -14,11 +19,8 @@ export default function TaskDetailsScreen({ route, navigation, tasks, setTasks }
   }
 
   const handleToggleCompleted = () => {
-    const updatedTasks = tasks.map(item =>
-      item.id === task.id ? { ...item, completed: !item.completed, progress: item.completed ? 50 : 100 } : item
-    );
-    setTasks(updatedTasks);
-    Alert.alert('Update saved', `Task marked as ${task.completed ? 'incomplete' : 'completed'}.`);
+    dispatch(toggleTask(task.id));
+    Alert.alert('Update saved', `Task marked as ${!task.completed ? 'completed' : 'incomplete'}.`);
   };
 
   const handleDelete = () => {
@@ -28,7 +30,7 @@ export default function TaskDetailsScreen({ route, navigation, tasks, setTasks }
         text: 'Delete',
         style: 'destructive',
         onPress: () => {
-          setTasks(tasks.filter(item => item.id !== task.id));
+          dispatch(deleteTask(task.id));
           navigation.goBack();
         }
       }

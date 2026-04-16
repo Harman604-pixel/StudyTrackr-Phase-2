@@ -1,8 +1,11 @@
 ﻿import { useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { addTask } from '../redux/taskSlice';
 import CustomButton from '../components/CustomButton';
 
-export default function AddTaskScreen({ navigation, tasks, setTasks }) {
+export default function AddTaskScreen({ navigation }) {
+  const dispatch = useDispatch();
   const [title, setTitle] = useState('');
   const [subject, setSubject] = useState('');
   const [dueDate, setDueDate] = useState('');
@@ -14,17 +17,16 @@ export default function AddTaskScreen({ navigation, tasks, setTasks }) {
       return;
     }
 
-    const newTask = {
+    dispatch(addTask({
       id: Date.now().toString(),
       title,
       subject,
       dueDate,
       description: details || 'No additional notes added.',
       progress: 0,
-      completed: false,
-    };
+      completed: false
+    }));
 
-    setTasks([newTask, ...tasks]);
     navigation.goBack();
   };
 
@@ -38,7 +40,7 @@ export default function AddTaskScreen({ navigation, tasks, setTasks }) {
       <TextInput style={styles.input} placeholder="e.g. Biology" value={subject} onChangeText={setSubject} />
 
       <Text style={styles.label}>Due date</Text>
-      <TextInput style={styles.input} placeholder="YYYY-MM-DD" value={dueDate} onChangeText={setDueDate} />
+      <Text style={styles.input} placeholder="YYYY-MM-DD" value={dueDate} onChangeText={setDueDate} />
 
       <Text style={styles.label}>Task details</Text>
       <TextInput
