@@ -31,7 +31,7 @@ export default function SettingsScreen() {
 
       <View style={styles.panel}>
         <Text style={styles.panelTitle}>Support</Text>
-        <Text style={styles.note}>Need help? Contact the team at studytrackr@example.com.</Text>
+        <Text style={styles.note}>Need help? Contact the team at studytrackr@hotmail.com.</Text>
       </View>
 
       <CustomButton label="Save Preferences" onPress={() => {}} />
